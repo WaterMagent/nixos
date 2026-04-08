@@ -1,0 +1,2 @@
+assets/fonts/*.ttf filter=lfs diff=lfs merge=lfs -text
+assets/fonts/*.otf filter=lfs diff=lfs merge=lfs -text

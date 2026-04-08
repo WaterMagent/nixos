@@ -1,0 +1,20 @@
+# NixOS 生成的文件
+result
+result-*
+
+# 本地临时文件
+*.swp
+*.swo
+*~
+*.save
+# hardware-configuration.nix
+# 敏感信息 (如果你把密码写在了明文文件里，一定要忽略！)
+# secrets/ 
+# *.key
+
+# 大型二进制文件 (可选，如果你的 fonts 文件夹很大，建议用 Git LFS)
+# assets/fonts/*.ttf
+# assets/fonts/*.otf
+
+# 自动生成的 lock 文件 (可选策略：有些人喜欢提交 lock 文件以保证完全可重现，推荐提交！)
+# flake.lock  <-- 如果你想让其他人也能精确复现你的系统，请注释掉这一行 (即提交它)
