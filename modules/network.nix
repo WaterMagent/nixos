@@ -9,11 +9,11 @@
   networking.hostName = "nyax";
   networking.networkmanager.enable = true;
   environment.etc."os-release".text = ''
-    NAME="ShionLinux"
+    NAME="ShionNix"
     ID=nixos
     VERSION="26.05 (Yarara)"
     VERSION_CODENAME=yarara
-    PRETTY_NAME="ShionLinux 26.05"
+    PRETTY_NAME="ShionNix 26.05"
     LOGO="nix-snowflake"
     HOME_URL="https://nixos.org/"
     DOCUMENTATION_URL="man:configuration.nix(5)"
@@ -21,7 +21,7 @@
     BUG_REPORT_URL="https://github.com/NixOS/nixpkgs/issues"
   '';
   environment.etc."machine-info".text = ''
-    PRETTY_HOSTNAME="ShionOS"
+    PRETTY_HOSTNAME="ShionNix"
   '';
   # 系统代理（nix-daemon）
   systemd.services.nix-daemon.environment = {
