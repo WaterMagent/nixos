@@ -20,6 +20,7 @@
       # 国内镜像源
       substituters = [
         "https://mirror.sjtu.edu.cn/nix-channels/store"
+        # "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
         "https://cache.nixos.org"
       ];
 
@@ -28,10 +29,19 @@
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
     };
-
     extraOptions = ''
       builders-use-substitutes = true
       connect-timeout = 5
     '';
+  };
+  systemd.services.nix-daemon = {
+    serviceConfig = {
+      Environment = [
+        "http_proxy=http://127.0.0.1:7897"
+        "https_proxy=http://127.0.0.1:7897"
+        "all_proxy=http://127.0.0.1:7897"
+        "no_proxy=localhost,127.0.0.1,::1,.local"
+      ];
+    };
   };
 }

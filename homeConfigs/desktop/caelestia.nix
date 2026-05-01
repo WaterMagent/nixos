@@ -8,221 +8,221 @@
 let
   # 定义 Caelestia 的 shell.json 配置内容
   # 这里直接放入你提供的完整 JSON
-  caelestiaConfig = builtins.toJSON {
-    appearance = {
-      anim = {
-        durations = {
-          scale = 1;
-        };
-      };
-      font = {
-        family = {
-          material = "Material Symbols Rounded";
-          mono = "Maple Mono NF";
-          sans = "Misans";
-        };
-        size = {
-          scale = 1;
-        };
-      };
-      padding = {
-        scale = 1;
-      };
-      rounding = {
-        scale = 1;
-      };
-      spacing = {
-        scale = 1;
-      };
-      transparency = {
-        enabled = false;
-        base = 0.85;
-        layers = 0.4;
-      };
-    };
-    general = {
-      apps = {
-        terminal = [ "ghostty" ];
-        audio = [ "pavucontrol" ];
-      };
-    };
-    background = {
-      desktopClock = {
-        enabled = false;
-      };
-      enabled = true;
-      visualiser = {
-        enabled = true;
-        autoHide = true;
-        rounding = 1;
-        spacing = 1;
-      };
-    };
-    bar = {
-      clock = {
-        showIcon = false;
-      };
-      dragThreshold = 20;
-      entries = [
-        {
-          id = "logo";
-          enabled = true;
+  caelestiaConfig = ''
+    {
+        "appearance": {
+            "anim": {
+                "durations": {
+                    "scale": 1
+                }
+            },
+            "font": {
+                "family": {
+                    "material": "Material Symbols Rounded",
+                    "mono": "Maple Mono NF",
+                    "sans": "Maple Mono NF"
+                },
+                "size": {
+                    "scale": 1
+                }
+            },
+            "padding": {
+                "scale": 1
+            },
+            "rounding": {
+                "scale": 1
+            },
+            "spacing": {
+                "scale": 1
+            },
+            "transparency": {
+                "base": 0.85,
+                "enabled": false,
+                "layers": 0.4
+            }
+        },
+        "background": {
+            "desktopClock": {
+                "enabled": false
+            },
+            "enabled": true,
+            "visualiser": {
+                "autoHide": true,
+                "enabled": true,
+                "rounding": 1,
+                "spacing": 1
+            }
+        },
+        "bar": {
+            "clock": {
+                "showIcon": false
+            },
+            "dragThreshold": 20,
+            "entries": [
+                {
+                    "enabled": true,
+                    "id": "logo"
+                },
+                {
+                    "enabled": true,
+                    "id": "workspaces"
+                },
+                {
+                    "enabled": true,
+                    "id": "spacer"
+                },
+                {
+                    "enabled": true,
+                    "id": "activeWindow"
+                },
+                {
+                    "enabled": true,
+                    "id": "spacer"
+                },
+                {
+                    "enabled": true,
+                    "id": "tray"
+                },
+                {
+                    "enabled": true,
+                    "id": "clock"
+                },
+                {
+                    "enabled": true,
+                    "id": "statusIcons"
+                },
+                {
+                    "enabled": true,
+                    "id": "power"
+                },
+                {
+                    "enabled": false,
+                    "id": "idleInhibitor"
+                }
+            ],
+            "persistent": false,
+            "showOnHover": true,
+            "status": {
+                "showAudio": false,
+                "showBattery": true,
+                "showBluetooth": true,
+                "showKbLayout": false,
+                "showMicrophone": false,
+                "showNetwork": true
+            },
+            "tray": {
+                "background": true,
+                "recolour": false
+            },
+            "workspaces": {
+                "activeIndicator": true,
+                "activeLabel": "󰮯",
+                "activeTrail": false,
+                "label": "◦",
+                "occupiedBg": true,
+                "occupiedLabel": "⊙",
+                "showWindows": true,
+                "shown": 4
+            }
+        },
+        "border": {
+            "rounding": 25,
+            "thickness": 10
+        },
+        "dashboard": {
+            "mediaUpdateInterval": 500,
+            "showOnHover": true
+        },
+        "general": {
+            "apps": {
+                "audio": [
+                    "pavucontrol"
+                ],
+                "terminal": [
+                    "ghostty"
+                ]
+            }
+        },
+        "launcher": {
+            "actionPrefix": ">",
+            "dragThreshold": 50,
+            "enableDangerousActions": false,
+            "maxShown": 8,
+            "maxWallpapers": 9,
+            "showOnHover": false,
+            "specialPrefix": "@",
+            "useFuzzy": {
+                "actions": false,
+                "apps": false,
+                "schemes": false,
+                "variants": false,
+                "wallpapers": false
+            },
+            "vimKeybinds": false
+        },
+        "lock": {
+            "recolourLogo": false
+        },
+        "notifs": {
+            "actionOnClick": false,
+            "clearThreshold": 0.3,
+            "defaultExpireTimeout": 5000,
+            "expandThreshold": 20,
+            "expire": true,
+            "openExpanded": false
+        },
+        "osd": {
+            "enableBrightness": true,
+            "enableMicrophone": true,
+            "enabled": true,
+            "hideDelay": 2000
+        },
+        "paths": {
+            "mediaGif": "root:/assets/bongocat.gif",
+            "sessionGif": "root:/assets/kurukuru.gif",
+            "wallpaperDir": "~/Wallpapers"
+        },
+        "services": {
+            "audioIncrement": 0.1,
+            "defaultPlayer": "Spotify",
+            "gpuType": "",
+            "playerAliases": [
+                {
+                    "from": "com.github.th_ch.youtube_music",
+                    "to": "YT Music"
+                }
+            ],
+            "smartScheme": true,
+            "useFahrenheit": false,
+            "useTwelveHourClock": false,
+            "visualiserBars": 0,
+            "weatherLocation": ""
+        },
+        "session": {
+            "commands": {
+                "hibernate": [
+                    "systemctl",
+                    "hibernate"
+                ],
+                "logout": [
+                    "loginctl",
+                    "terminate-user",
+                    ""
+                ],
+                "reboot": [
+                    "systemctl",
+                    "reboot"
+                ],
+                "shutdown": [
+                    "systemctl",
+                    "poweroff"
+                ]
+            },
+            "dragThreshold": 30,
+            "vimKeybinds": false
         }
-        {
-          id = "workspaces";
-          enabled = true;
-        }
-        {
-          id = "spacer";
-          enabled = true;
-        }
-        {
-          id = "activeWindow";
-          enabled = true;
-        }
-        {
-          id = "spacer";
-          enabled = true;
-        }
-        {
-          id = "tray";
-          enabled = true;
-        }
-        {
-          id = "clock";
-          enabled = true;
-        }
-        {
-          id = "statusIcons";
-          enabled = true;
-        }
-        {
-          id = "power";
-          enabled = true;
-        }
-        {
-          id = "idleInhibitor";
-          enabled = false;
-        }
-      ];
-      persistent = false;
-      showOnHover = true;
-      status = {
-        showAudio = false;
-        showBattery = true;
-        showBluetooth = true;
-        showMicrophone = false;
-        showKbLayout = false;
-        showNetwork = true;
-      };
-      tray = {
-        background = true;
-        recolour = false;
-      };
-      workspaces = {
-        activeIndicator = true;
-        activeLabel = "󰮯";
-        activeTrail = false;
-        groupIconsByApp = true;
-        groupingRespectsLayout = true;
-        windowRighClickContext = true;
-        label = "◦";
-        occupiedBg = true;
-        occupiedLabel = "⊙";
-        showWindows = true;
-        shown = 4;
-        windowIconImage = false;
-        focusedWindowBlob = true;
-        windowIconGap = 0;
-        windowIconSize = 30;
-      };
-    };
-    border = {
-      rounding = 25;
-      thickness = 10;
-    };
-    dashboard = {
-      mediaUpdateInterval = 500;
-      showOnHover = true;
-    };
-    launcher = {
-      actionPrefix = ">";
-      dragThreshold = 50;
-      vimKeybinds = false;
-      enableDangerousActions = false;
-      maxShown = 8;
-      maxWallpapers = 9;
-      specialPrefix = "@";
-      useFuzzy = {
-        apps = false;
-        actions = false;
-        schemes = false;
-        variants = false;
-        wallpapers = false;
-      };
-      showOnHover = false;
-    };
-    lock = {
-      recolourLogo = false;
-    };
-    notifs = {
-      actionOnClick = false;
-      clearThreshold = 0.3;
-      defaultExpireTimeout = 500;
-      expandThreshold = 20;
-      expire = false;
-    };
-    osd = {
-      enabled = true;
-      enableBrightness = true;
-      enableMicrophone = true;
-      hideDelay = 2000;
-    };
-    paths = {
-      mediaGif = "root:/assets/bongocat.gif";
-      sessionGif = "root:/assets/kurukuru.gif";
-      wallpaperDir = "~/Wallpapers";
-    };
-    services = {
-      audioIncrement = 0.1;
-      defaultPlayer = "Spotify";
-      gpuType = "";
-      playerAliases = [
-        {
-          from = "com.github.th_ch.youtube_music";
-          to = "YT Music";
-        }
-      ];
-      weatherLocation = "";
-      useFahrenheit = false;
-      useTwelveHourClock = false;
-      smartScheme = true;
-      visualiserBars = 0;
-    };
-    session = {
-      dragThreshold = 30;
-      vimKeybinds = false;
-      commands = {
-        logout = [
-          "loginctl"
-          "terminate-user"
-          ""
-        ];
-        shutdown = [
-          "systemctl"
-          "poweroff"
-        ];
-        hibernate = [
-          "systemctl"
-          "hibernate"
-        ];
-        reboot = [
-          "systemctl"
-          "reboot"
-        ];
-      };
-    };
-  };
+    }
+  '';
 in
 
 {

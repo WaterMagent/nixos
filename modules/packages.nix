@@ -8,7 +8,7 @@
 {
   environment.systemPackages = with pkgs; [
     # 开发工具
-    nodePackages.pnpm
+    pnpm
     nodejs
     cargo
     pkg-config
@@ -67,15 +67,15 @@
     quickshell
     matugen
     papirus-icon-theme
-
     # 多媒体/创作
     obs-studio
     libcava
-    swaynotificationcenter
-
+    alacritty
     # 网络/工具
     netlify-cli
+    hyprland
     docker
+    zsh
     qemu
     steam-run
     appimage-run
@@ -98,7 +98,7 @@
     piliplus
     nautilus
     gnome-tweaks
-
+    wf-recorder
     # 其他
     icu
     alsa-lib
@@ -108,5 +108,6 @@
     dms-shell
     qt6Packages.fcitx5-configtool
     niri
+    daed
   ];
 }

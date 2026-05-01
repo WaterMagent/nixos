@@ -20,6 +20,8 @@
       "${pkgs.qt5.qtgraphicaleffects}/lib/qt5/qml"
       "${pkgs.qt6.qt5compat}/lib/qt6/qml"
     ];
+    http_proxy = "http://127.0.0.1:7897";
+    https_proxy = "http://127.0.0.1:7897";
   };
 
   # 兼容非 NixOS 二进制

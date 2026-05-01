@@ -17,7 +17,7 @@ let
     # 启动页时长
     loadingSeconds=2
     # 启动页欢迎语
-    welcome=musicfox
+    welcome="musicfox"
     # 启动时自动签到 (网易云现在有检测，建议关闭)
     signIn=false
     # 启动时检查更新
@@ -41,9 +41,9 @@ let
     # 是否显示标题
     showTitle=true
     # 加载中提示
-    loadingText=[加载中...]
+    loadingText="[加载中...]"
     # 歌曲音质，可选项：standard, exhigh, higher, lossless, hires, jyeffect(高清环绕声), sky(沉浸环绕声), jymaster(超清母带) 进行音质判断
-    songLevel=higher
+    songLevel="jymaster"
     # 主题颜色
     # 随机
     # primaryColor=random
@@ -78,7 +78,7 @@ let
     # 界面所有内容居中（实验性功能，未来版本中可能会大幅改动）
     centerEverything=false
     # 网易云登录 cookie
-    neteaseCookie=
+    neteaseCookie=""
     # 是否开启 debug 模式
     debug=false
 
@@ -88,9 +88,9 @@ let
     # 若设置了 MUSICFOX_ROOT 变量，则默认为 $MUSICFOX_ROOT/download
     # 若未设置 MUSICFOX_ROOT 变量，则为相应系统的默认下载目录的 go-musicfox 子目录
     # 请使用绝对路径
-    downloadDir=
+    downloadDir=""
     # 默认值与 downloadDir 一致
-    downloadLyricDir=
+    downloadLyricDir=""
     # 文件名模板
     # 可用字段参考 #自定义分享模板 中的 song 部分，FileExt 为自适应的后缀名
     # downloadFileNameTpl={{.SongName}}-{{.SongArtists}}.{{.FileExt}}
@@ -102,7 +102,7 @@ let
     # 若设置了 MUSICFOX_ROOT 变量，则默认为 $MUSICFOX_ROOT/cache
     # 若未设置 MUSICFOX_ROOT 变量，则为相应系统的默认缓存目录的 go-musicfox 子目录
     # !!!注意!!! 如果使用 mpd,mpd 配置中的"music_directory"必须与 cacheDir 一致
-    cacheDir=
+    cacheDir=""
     # 缓存大小（以 MB 为单位），0 为不使用缓存，-1 为不限制，默认为 0
     cacheLimit=0
 
@@ -115,29 +115,29 @@ let
     # 是否开启自动播放，默认不开启
     autoPlay=false
     # 自动播放歌单，dailyReco, like, name:歌单名，no（保持上次退出时的设置，无视 offset），默认为 dailyReco
-    autoPlayList=dailyReco
+    autoPlayList="dailyReco"
     # 播放偏移，0 为第一首，-1 为最后一首，默认为 0
     offset=0
     # 播放模式，listLoop, order, singleLoop, random（无视 offset）, intelligent（心动）, last（上次退出时的模式），默认为 last
-    playMode=last
+    playMode="last"
 
     [player]
     # 播放引擎 beep / mpd(需要安装配置 mpd) / mpv(Linux 和 Termux 下使用，需要安装 mpv) / osx(Mac 可用) / win_media(windows 可用)
     # Mac 默认使用 osx，windows 默认 win_media，其他系统默认使用 beep（推荐的配置）
     engine="mpv"
     # beep 使用的 mp3 解码器，可选：go-mp3, minimp3 (minimp3 更少的 CPU 占用，但是稳定性不如 go-mp3)
-    beepMp3Decoder=go-mp3
+    beepMp3Decoder="go-mp3"
     # 失败重试次数
     maxPlayErrCount=3
 
     # mpd 配置
-    mpdBin=/usr/local/bin/mpd
+    mpdBin="/usr/local/bin/mpd"
     # !!!注意!!! 一定要在配置文件中设置 pid_file，否则在退出时不会 kill 掉 mpd 进程
-    mpdConfigFile=/Users/anhoder/.mpd/mpd.conf
+    mpdConfigFile="/Users/anhoder/.mpd/mpd.conf"
     # tcp 或 unix
-    mpdNetwork=unix
+    mpdNetwork="unix"
     # tcp 时填写 ip+port(例如:127.0.0.1:1234)，unix 时填写 socket 文件路径
-    mpdAddr=
+    mpdAddr=""
     # 自动启动 mpd
     mpdAutoStart=true
 
@@ -149,7 +149,7 @@ let
     # UNM 开关
     switch=true
     # UNM 源：kuwo,kugou,migu,qq
-    sources=kuwo
+    sources=["kuwo"]
     # UNM 搜索其他平台限制 0-3
     searchLimit=0
     # 解除会员限制
@@ -157,7 +157,7 @@ let
     # 解除音质限制
     unlockSoundEffects=true
     # QQ 音乐 cookie 文件
-    qqCookieFile=
+    qqCookieFile=""
     # 检测到无效的歌（如提示酷我...）时跳过播放，该效果计入播放错误计数
     skipInvalidTracks=false
 
@@ -167,9 +167,9 @@ let
     lastfmEnable=false
     # 更换 API account 后须重新授权以使用，重新授权前可通过还原 API account 恢复
     # Last.fm API Key
-    lastfmKey=
+    lastfmKey=""
     # Last.fm Shared Secret
-    lastfmSecret=
+    lastfmSecret=""
     # 必须至少播放 30s
     # 大于 4min 即可上报
     # 或播放至少多少才请求上报？（百分比，至少 50%，请填写整数值）
@@ -189,42 +189,24 @@ let
     # 若未设置任何键则取消该操作的键绑定
     # 若设置值无效则使用默认键绑定
     [keybindings]
-    # 帮助信息
-    help = ?,？
-    # 上一页
-    pageUp = ctrl+u,pgup
-    # 下一页
-    pageDown = ctrl+d,pgdown
-    # 播放/暂停 (注意：space 优于直接用空格字符)
-    playortoggle = space
-    # 切换播放状态 (无默认按键)
-    toggle =
-    # 上一首
-    previous = [, [
-    # 下一首
-    next = ], ]
-    # 快退 5 秒
-    backwardFiveSec = X
-    # 快退 1 秒
-    backwardOneSec = x
-    # 快进 5 秒
-    forwardFiveSec = v
-    # 快进 10 秒
-    forwardTenSec = V
-    # 减小音量
-    downVolume = -,-,ー
-    # 加大音量
-    upVolume = =, ＝
-    # 切换播放模式
-    switchPlayMode = p
-    # 心动模式
-    intelligence = P
-    # 清除音乐缓存
-    clearSongCache = u,U
-    # 注销并退出
-    logout = w,W
-    # 显示当前播放列表
-    curPlaylist = c,C
+    help = "?,？"
+    pageUp = "ctrl+u,pgup"
+    pageDown = "ctrl+d,pgdown"
+    playortoggle = "space"
+    toggle = ""
+    previous = "[, ["
+    next = "], ]"
+    backwardFiveSec = "X"
+    backwardOneSec = "x"
+    forwardFiveSec = "v"
+    forwardTenSec = "V"
+    downVolume = "-,-,ー"
+    upVolume = "=, ＝"
+    switchPlayMode = "p"
+    intelligence = "P"
+    clearSongCache = "u,U"
+    logout = "w,W"
+    curPlaylist = "c,C"
 
     # 自定义分享模板
     # 格式：名称=模板字符串 (https://github.com/go-musicfox/go-musicfox?tab=readme-ov-file#自定义分享模板)
@@ -242,7 +224,7 @@ in
   ];
 
   # ✅ 生成 go-musicfox 配置文件
-  xdg.configFile."go-musicfox/config.ini" = {
+  xdg.configFile."go-musicfox/config.toml" = {
     text = musicfoxConfig;
     force = true;
   };

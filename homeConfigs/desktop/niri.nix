@@ -446,20 +446,21 @@ let
     window-rule {
         geometry-corner-radius 14
         clip-to-geometry true
+        opacity 0.95
     }
 
-    // layer-rule{
-    //     match namespace="^quickshell-wallpaper$"
-    // }
+    layer-rule{
+        match namespace="^quickshell-wallpaper$"
+    }
 
     // layer-rule{
     //     match namespace="^noctalia-overview*"
     //     place-within-backdrop true
     // }
     
-    layer-rule{
-        match namespace="dms:blurwallpaper"
-    }
+    //layer-rule{
+    //    match namespace="dms:blurwallpaper"
+    //}
     cursor {
         xcursor-theme "GoogleDot-Black"
         xcursor-size 35
@@ -757,7 +758,7 @@ let
         // The allow-inhibiting=false property can be applied to other binds as well,
         // which ensures niri always processes them, even when an inhibitor is active.
         Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
-
+        End { spawn-sh "dms ipc powermenu open"; }
         // The quit action will show a confirmation dialog to avoid accidental exits.
         Mod+M { quit; }
         Mod+E {spawn "nautilus";}

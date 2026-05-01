@@ -2,7 +2,7 @@
   description = "Cool NixOS Flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager/master";
@@ -18,14 +18,16 @@
       url = "path:/etc/nixos/assets/nvim-config";
       flake = false; # 重要：告诉 Nix 这不是一个 flake，只是普通文件夹
     };
-
-    # 其他 inputs...
-    caelestia = {
-      url = "github:jutraim/niri-caelestia-shell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    sjmcl-nix = {
+      url = "github:FrdrCkII/sjmcl-nix";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
+    caelestia-shell = {
+      url = "github:caelestia-dots/shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -37,6 +39,8 @@
       home-manager,
       niri,
       my-nvim-config,
+      sjmcl-nix,
+      caelestia-shell,
       ...
     }:
     {
@@ -50,35 +54,66 @@
           ./configuration.nix
           ./hardware-configuration.nix
 
-          home-manager.nixosModules.home-manager
+          #home-manager.nixosModules.home-manager
           # ✨ 新增：导入 Niri 的 Home Manager 模块
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              backupFileExtension = "hm-bak";
+          #{
+            #home-manager = {
+              #useGlobalPkgs = true;
+              #useUserPackages = true;
+              #backupFileExtension = "hm-bak";
 
-              users.shion =
-                { config, pkgs, ... }:
-                {
-                  imports = [
-                    ./homeConfigs/home.nix
-                    ./homeConfigs/desktop/niri.nix # 你的 Niri 配置
-                  ];
-                  home.stateVersion = "24.11";
-                };
+              #users.shion =
+                #{ config, pkgs, ... }:
+                #{
+                  #imports = [
+                 #   ./homeConfigs/home.nix
+                #    ./homeConfigs/desktop/niri.nix # 你的 Niri 配置
+               #   ];
+              #    home.stateVersion = "24.11";
+             #   };
+            #};
+
+           # home-manager.extraSpecialArgs = { inherit inputs my-nvim-config; };
+          #}
+          home-manager.nixosModules.home-manager
+          {
+            # 1. 关闭 useGlobalPkgs，让 HM 自己管理一套完整的 pkgs
+            home-manager.useGlobalPkgs = true; 
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "hm-bak";
+
+            # 2. 在 extraSpecialArgs 里重新传入一个干净的 pkgs
+            home-manager.extraSpecialArgs = { 
+              inherit inputs my-nvim-config;
+              # 重新 import 一份完整的 nixpkgs 给 HM 专用
             };
 
-            home-manager.extraSpecialArgs = { inherit inputs my-nvim-config; };
+            home-manager.users.shion =
+              { config, pkgs, ... }:
+              {
+                imports = [
+                  ./homeConfigs/home.nix
+                  ./homeConfigs/desktop/niri.nix
+                ];
+                home.stateVersion = "24.11";
+                
+                # 3. 显式把 lndir 加入 HM 管理的包
+              };
           }
 
           (
             { inputs, pkgs, ... }:
             {
               environment.systemPackages = [
-                inputs.caelestia.packages.${pkgs.stdenv.hostPlatform.system}.with-cli
                 inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
                 inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.default
+                caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.default
+#                (inputs.sjmcl-nix.packages.${pkgs.stdenv.hostPlatform.system}.sjmcl.default {
+ #                 jdks = [ ]; # 需要使用的 jdk ，默认为 pkgs.jdk
+  #                additionalLibs = [ ]; # 需要额外添加的库，一般无需增加
+   #               additionalPrograms = [ ]; # 需要额外添加的程序依赖，一般无需添加
+    #              curseforgeApiKey = "..."; # Curse Forge Api Key，默认使用 PolyMc 启动器公开的 Api Key
+     #           })
               ];
             }
           )

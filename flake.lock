@@ -1,6 +1,30 @@
 {
   "nodes": {
-    "caelestia": {
+    "caelestia-cli": {
+      "inputs": {
+        "caelestia-shell": [
+          "caelestia-shell"
+        ],
+        "nixpkgs": [
+          "caelestia-shell",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1772764582,
+        "narHash": "sha256-hSwjmpXHFqzSXrndVekA0IheKrbC7wi0IbfZTYwlmXw=",
+        "owner": "caelestia-dots",
+        "repo": "cli",
+        "rev": "4bcd42f482d038b98145b0b03388244b68b7d35d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "caelestia-dots",
+        "repo": "cli",
+        "type": "github"
+      }
+    },
+    "caelestia-shell": {
       "inputs": {
         "caelestia-cli": "caelestia-cli",
         "nixpkgs": [
@@ -9,40 +33,16 @@
         "quickshell": "quickshell"
       },
       "locked": {
-        "lastModified": 1772332188,
-        "narHash": "sha256-dW0PQuRaIBrIKy2/qqx220/8mtbrIep1qmD2mKDhfBo=",
-        "owner": "jutraim",
-        "repo": "niri-caelestia-shell",
-        "rev": "9db188f6583151d4479ed004fdbaf9dfa73c0b7f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "jutraim",
-        "repo": "niri-caelestia-shell",
-        "type": "github"
-      }
-    },
-    "caelestia-cli": {
-      "inputs": {
-        "caelestia-shell": [
-          "caelestia"
-        ],
-        "nixpkgs": [
-          "caelestia",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1771987897,
-        "narHash": "sha256-5pNQFGxG3fxS9pGnNBJjT76veotKIKq2XpAVFGAhCdI=",
+        "lastModified": 1776670101,
+        "narHash": "sha256-VmPWtG6H+k2tgGnpYwNO5YueHOBdOXXTiBTrjXqcHag=",
         "owner": "caelestia-dots",
-        "repo": "cli",
-        "rev": "b0d68f0a1c48fa138d6fde94dcbecea801a86a01",
+        "repo": "shell",
+        "rev": "b94ee8d41bad1ea59395d6184425036fa7121bc5",
         "type": "github"
       },
       "original": {
         "owner": "caelestia-dots",
-        "repo": "cli",
+        "repo": "shell",
         "type": "github"
       }
     },
@@ -124,15 +124,15 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1772624091,
-        "narHash": "sha256-QKyJ0QGWBn6r0invrMAK8dmJoBYWoOWy7lN+UHzW1jc=",
-        "owner": "nixos",
+        "lastModified": 1775710090,
+        "narHash": "sha256-ar3rofg+awPB8QXDaFJhJ2jJhu+KqN/PRCXeyuXR76E=",
+        "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "80bdc1e5ce51f56b19791b52b2901187931f5353",
+        "rev": "4c1018dae018162ec878d42fec712642d214fdfa",
         "type": "github"
       },
       "original": {
-        "owner": "nixos",
+        "owner": "NixOS",
         "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
@@ -141,16 +141,16 @@
     "quickshell": {
       "inputs": {
         "nixpkgs": [
-          "caelestia",
+          "caelestia-shell",
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1771926182,
-        "narHash": "sha256-QbXuSLhiSxOq6ydBL3+KGe1aiYWBW+e3J6qjJZaRMq0=",
+        "lastModified": 1772925576,
+        "narHash": "sha256-mMoiXABDtkSJxCYDrkhJ/TrrJf5M46oUfIlJvv2gkZ0=",
         "ref": "refs/heads/master",
-        "rev": "cddb4f061bab495f4473ca5f2c571b6c710efef7",
-        "revCount": 744,
+        "rev": "15a84097653593dd15fad59a56befc2b7bdc270d",
+        "revCount": 750,
         "type": "git",
         "url": "https://git.outfoxxed.me/outfoxxed/quickshell"
       },
@@ -161,11 +161,12 @@
     },
     "root": {
       "inputs": {
-        "caelestia": "caelestia",
+        "caelestia-shell": "caelestia-shell",
         "home-manager": "home-manager",
         "my-nvim-config": "my-nvim-config",
         "niri": "niri",
         "nixpkgs": "nixpkgs",
+        "sjmcl-nix": "sjmcl-nix",
         "zen-browser": "zen-browser"
       }
     },
@@ -187,6 +188,21 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "sjmcl-nix": {
+      "locked": {
+        "lastModified": 1775975906,
+        "narHash": "sha256-09W9ZqNLwljjiVcUU7bwTJck8gnLA9ilFpUje2uXkLs=",
+        "owner": "FrdrCkII",
+        "repo": "sjmcl-nix",
+        "rev": "1d3c0cb947d103712c520e858bc3b2312656b4d0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "FrdrCkII",
+        "repo": "sjmcl-nix",
         "type": "github"
       }
     },

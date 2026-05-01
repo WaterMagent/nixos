@@ -18,10 +18,12 @@
     ./othercli/fastfetch.nix
     ./othercli/yazi.nix
     ./desktop/niri.nix
+    ./desktop/hyprland.nix
     ./desktop/caelestia.nix
     ./terminal/ghostty.nix
     ./shell/fish.nix
     ./shell/starship.nix
+    ./shell/zsh.nix
     ./music/cava.nix
     ./music/musicfox.nix
     ./assets/fonts.nix

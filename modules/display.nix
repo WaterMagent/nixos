@@ -7,8 +7,6 @@
 
 {
   # 显示管理器：SDDM + Wayland
-  services.displayManager.gdm.enable = false;
-  services.desktopManager.gnome.enable = false;
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.ly.enable = false;
@@ -21,6 +19,7 @@
 #  services.getty.autologinUser = "shion";
   # Wayland 合成器
   programs.niri.enable = true;
+  programs.hyprland.enable = true;
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;

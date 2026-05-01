@@ -1,146 +1,136 @@
+{ config, pkgs, ... }:
+
 {
-  config,
-  pkgs,
-  lib,
-  ...
-}:
+  # 确保 fastfetch 已安装
+  programs.fastfetch = {
+    enable = true;
 
-let
-  # ✨ 使用 xdg.dataFile 管理 logo 图片
-  # 图片会被复制到 ~/.local/share/fastfetch/xnn.png
-  logoPath = "${config.xdg.dataHome}/fastfetch/xnn.png";
-in
-{
-  # 安装 fastfetch
-  programs.fastfetch.enable = true;
+    # 将你的 JSON 内容映射到 settings 中
+    # 注意：Nix 支持直接嵌入 JSON-like 结构，但需要符合 Nix 语法
+    settings = {
 
-  # ✨ 管理 logo 图片资源
-  xdg.dataFile."fastfetch/xnn.png".source = ../../assets/icons/xnn.png;
-
-  # ✨ fastfetch 配置（声明式，自动转 JSON）
-  programs.fastfetch.settings = {
-    "$schema" = "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json";
-
-    logo = {
-      source = logoPath; # 使用 xdg.dataFile 生成的路径
-      height = 20;
-    };
-
-    display = {
-      separator = "->   ";
-      color.separator = "1"; # Bold
-      constants = [ "───────────────────────────" ];
-      key = {
-        type = "both";
-        paddingLeft = 4;
+      display = {
+        separator = " ";
       };
+
+      modules = [
+        {
+          key = "╭────────────╮";
+          type = "custom";
+        }
+        {
+          key = "│  User     │";
+          type = "title";
+        }
+        {
+          key = "│  Package  │";
+          type = "packages";
+        }
+        {
+          key = "│ 󰅐 Time     │";
+          type = "uptime";
+        }
+        {
+          key = "│  OS       │";
+          type = "os";
+        }
+        {
+          key = "│  BIOS     │";
+          type = "bios";
+        }
+        {
+          key = "│  Kernel   │";
+          type = "kernel";
+        }
+        {
+          key = "├┈┈┈┈┈┈┈┈┈┈┈┈┤";
+          type = "custom";
+        }
+        {
+          key = "│ 󰇄 Desktop  │";
+          type = "de";
+        }
+        {
+          key = "│  Wm       │";
+          type = "wm";
+        }
+        {
+          key = "│  Display  │";
+          type = "display";
+        }
+        {
+          key = "│  WMTheme  │";
+          type = "wmtheme";
+        }
+        {
+          key = "├┈┈┈┈┈┈┈┈┈┈┈┈┤";
+          type = "custom";
+        }
+        {
+          key = "│  Term     │";
+          type = "terminal";
+        }
+        {
+          key = "│  Shell    │";
+          type = "shell";
+        }
+        {
+          key = "│ 󰍛 CPU      │";
+          type = "cpu";
+          showPeCoreCount = true;
+        }
+        {
+          key = "│ 󰍹 GPU      │";
+          type = "gpu";
+        }
+        {
+          key = "├┈┈┈┈┈┈┈┈┈┈┈┈┤";
+          type = "custom";
+        }
+        {
+          key = "│ 󰉉 DISK     │";
+          type = "disk";
+          folders = "/";
+        }
+        {
+          key = "│  Memory   │";
+          type = "memory";
+        }
+        {
+          key = "│ 󰾵 Swap     │";
+          type = "swap";
+        }
+        {
+          key = "├┈┈┈┈┈┈┈┈┈┈┈┈┤";
+          type = "custom";
+        }
+        {
+          key = "│ 󰩟 NetWorks │";
+          type = "localip";
+          format = "{ipv4} ({ifname})";
+        }
+        {
+          key = "│  Locale   │";
+          type = "locale";
+        }
+        {
+          key = "│ 󰅐 DateTime │";
+          type = "datetime";
+        }
+        {
+          key = "├┈┈┈┈┈┈┈┈┈┈┈┈┤";
+          type = "custom";
+        }
+        {
+          key = "│ 󰏘 Colors   │";
+          type = "colors";
+          symbol = "circle";
+        }
+        {
+          key = "╰────────────╯";
+          type = "custom";
+        }
+      ];
     };
-
-    modules = [
-      # Title
-      {
-        type = "title";
-        format = "                             {user-name-colored}{at-symbol-colored}{host-name-colored}";
-      }
-      "break"
-
-      # Custom header
-      {
-        type = "custom";
-        format = "┌{$1} {#1}System Information{#} {$1}┐";
-      }
-      "break"
-
-      # System info modules
-      {
-        key = "OS           ";
-        keyColor = "red";
-        type = "os";
-      }
-      {
-        key = "Machine      ";
-        keyColor = "green";
-        type = "host";
-      }
-      {
-        key = "Kernel       ";
-        keyColor = "magenta";
-        type = "kernel";
-      }
-      {
-        key = "Uptime       ";
-        keyColor = "red";
-        type = "uptime";
-      }
-      {
-        key = "Resolution   ";
-        keyColor = "yellow";
-        type = "display";
-        compactType = "original-with-refresh-rate";
-      }
-      {
-        key = "WM           ";
-        keyColor = "blue";
-        type = "wm";
-      }
-      {
-        key = "DE           ";
-        keyColor = "green";
-        type = "de";
-      }
-      {
-        key = "Shell        ";
-        keyColor = "cyan";
-        type = "shell";
-      }
-      {
-        key = "Terminal     ";
-        keyColor = "red";
-        type = "terminal";
-      }
-      {
-        key = "CPU          ";
-        keyColor = "yellow";
-        type = "cpu";
-      }
-      {
-        key = "GPU          ";
-        keyColor = "blue";
-        type = "gpu";
-      }
-      {
-        key = "Memory       ";
-        keyColor = "magenta";
-        type = "memory";
-      }
-      {
-        key = "Local IP     ";
-        keyColor = "red";
-        type = "localip";
-        compact = true;
-      }
-      {
-        key = "Public IP    ";
-        keyColor = "cyan";
-        type = "publicip";
-        timeout = 1000;
-      }
-
-      "break"
-
-      # Custom footer
-      {
-        type = "custom";
-        format = "└{$1}────────────────────{$1}┘";
-      }
-      "break"
-
-      # Colors
-      {
-        type = "colors";
-        paddingLeft = 34;
-        symbol = "circle";
-      }
-    ];
   };
 }
