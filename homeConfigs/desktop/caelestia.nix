@@ -20,7 +20,7 @@ let
                 "family": {
                     "material": "Material Symbols Rounded",
                     "mono": "Maple Mono NF",
-                    "sans": "Misans"
+                    "sans": "Maple Mono NF"
                 },
                 "size": {
                     "scale": 1
