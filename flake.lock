@@ -195,15 +195,15 @@
       "locked": {
         "lastModified": 1775975906,
         "narHash": "sha256-09W9ZqNLwljjiVcUU7bwTJck8gnLA9ilFpUje2uXkLs=",
-        "owner": "FrdrCkII",
-        "repo": "sjmcl-nix",
+        "ref": "refs/heads/main",
         "rev": "1d3c0cb947d103712c520e858bc3b2312656b4d0",
-        "type": "github"
+        "revCount": 5,
+        "type": "git",
+        "url": "https://codeberg.org/FrdrCkII/sjmcl-nix"
       },
       "original": {
-        "owner": "FrdrCkII",
-        "repo": "sjmcl-nix",
-        "type": "github"
+        "type": "git",
+        "url": "https://codeberg.org/FrdrCkII/sjmcl-nix"
       }
     },
     "zen-browser": {

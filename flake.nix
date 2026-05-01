@@ -22,10 +22,7 @@
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    sjmcl-nix = {
-      url = "github:FrdrCkII/sjmcl-nix";
-      # inputs.nixpkgs.follows = "nixpkgs";
-    };
+    sjmcl-nix.url = "git+https://codeberg.org/FrdrCkII/sjmcl-nix";
     caelestia-shell = {
       url = "github:caelestia-dots/shell";
       inputs.nixpkgs.follows = "nixpkgs";

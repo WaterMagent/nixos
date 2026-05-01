@@ -17,6 +17,7 @@
   imports = [
     ./othercli/fastfetch.nix
     ./othercli/yazi.nix
+    ./othercli/nh.nix
     ./desktop/niri.nix
     ./desktop/hyprland.nix
     ./desktop/caelestia.nix
