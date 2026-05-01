@@ -1,0 +1,113 @@
+# /etc/nixos/homeConfigs/shell/zshrc
+
+# --- 自动加载模块 ---
+autoload -Uz colors && colors
+autoload -Uz vcs_info
+autoload -Uz compinit && compinit
+
+# --- VCS Info (Git 信息) ---
+precmd_vcs_info() {
+    vcs_info
+    [[ -n "$vcs_info_msg_0_" ]] && vcs_info_msg_0_="${vcs_info_msg_0_}"
+}
+precmd_functions+=( precmd_vcs_info )
+zstyle ':vcs_info:git:*' formats '%b'
+zstyle ':vcs_info:git:*' actionformats '%b|%a'
+
+git_status_info() {
+    local git_branch git_version git_status
+    if git rev-parse --git-dir >/dev/null 2>&1; then
+        git_branch=$(git symbolic-ref --short HEAD 2>/dev/null || git describe --tags --exact-match 2>/dev/null || echo "detached")
+        git_version=$(git describe --tags --abbrev=0 2>/dev/null || echo "no-tag")
+        if [[ -n $(git status -s 2>/dev/null) ]]; then
+            git_status="*"
+        else
+            git_status=""
+        fi
+        echo "[$git_status$git_branch via $git_version]"
+    fi
+}
+
+# --- Prompt ---
+setopt PROMPT_SUBST
+PROMPT='%F{red}[%*]%f %F{#feb0d3}❯%f '
+RPROMPT='%F{208}$(git_status_info)%f%F{green}[%~]%f%F{blue}[%M@%n]%f'
+
+# --- Aliases ---
+alias ls='eza --icons'
+alias ll='eza -l --icons'
+alias la='eza -la --icons'
+alias lt='eza --tree --icons'
+alias grep='grep --color=auto'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias cat='bat --style=plain'
+alias top='btm'
+
+# --- Functions ---
+rec() {
+    local audio_source=$(pactl get-default-sink | grep "Name:" | awk '{print $2}')".monitor"
+
+    if [ -z "$audio_source" ]; then
+        echo "❌ 错误：无法找到音频输出设备。请检查 pulseaudio/pipewire 是否运行。"
+        return 1
+    fi
+
+    local timestamp=$(date +%Y-%m-%d_%H-%M-%S)
+    local videofile="video_$timestamp.mkv"
+    local audiofile="audio_$timestamp.wav"
+
+    echo "🎬 开始录屏喵..."
+    echo "📹 视频文件：$videofile"
+    echo "🔊 音频源：$audio_source"
+    echo "⚡ 编码：NVIDIA NVENC (H.264)"
+    echo "----------------------------------------"
+    echo "按 Ctrl + C 停止录制"
+    echo ""
+
+    ffmpeg -y -nostdin -f pulse -i "$audio_source" \
+        -c:a pcm_s16le -ar 48000 -ac 2 \
+        "$audiofile" </dev/null >/dev/null 2>&1 &
+    local audio_pid=$!
+
+    wf-recorder -f "$videofile" -c h264_nvenc --framerate 60
+
+    kill -INT $audio_pid 2>/dev/null
+    sleep 1
+    kill -KILL $audio_pid 2>/dev/null
+    wait $audio_pid 2>/dev/null
+
+    echo ""
+    echo "✅ 录制完成！"
+    echo "📹 $(pwd)/$videofile"
+    echo "🔊 $(pwd)/$audiofile"
+    echo ""
+    echo "🔄 正在自动合并音视频..."
+
+    local finalfile="${timestamp}_final.mkv"
+    if ffmpeg -i "$videofile" -i "$audiofile" -c:v copy -c:a aac -b:a 192k -y "$finalfile" 2>/dev/null; then
+        echo "✅ 合并成功：$finalfile"
+        rm "$videofile" "$audiofile"
+    else
+        echo "❌ 合并失败，请手动运行合并命令。"
+        echo "ffmpeg -i '$videofile' -i '$audiofile' -c:v copy -c:a aac -b:a 192k '$finalfile'"
+    fi
+}
+
+# --- History & Options ---
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.zsh_history
+setopt HIST_IGNORE_DUPS
+setopt SHARE_HISTORY
+setopt AUTO_CD
+setopt INTERACTIVE_COMMENTS
+
+# --- Completion ---
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
+# --- Environment Variables ---
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
+export DBUS_SESSION_BUS_ADDRESS="unix:path=$XDG_RUNTIME_DIR/bus"

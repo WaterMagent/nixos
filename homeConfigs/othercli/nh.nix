@@ -3,12 +3,7 @@
   opts,
   ...
 }:
-let
-  cfg = opts.cli.nh or { };
-  finallyEnable = cfg.enable or false;
-in
 {
-  config = lib.mkIf finallyEnable {
     # NH 程序配置
     programs.nh = {
       # 启用 NH 程序
@@ -22,5 +17,4 @@ in
         extraArgs = "--keep 5 --keep-since 3d";
       };
     };
-  };
 }
