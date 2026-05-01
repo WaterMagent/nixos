@@ -20,7 +20,7 @@ let
                 "family": {
                     "material": "Material Symbols Rounded",
                     "mono": "Maple Mono NF",
-                    "sans": "Maple Mono NF"
+                    "sans": "Misans"
                 },
                 "size": {
                     "scale": 1
@@ -180,7 +180,7 @@ let
         "paths": {
             "mediaGif": "root:/assets/bongocat.gif",
             "sessionGif": "root:/assets/kurukuru.gif",
-            "wallpaperDir": "~/Wallpapers"
+            "wallpaperDir": "/etc/nixos/assets/Wallpapers"
         },
         "services": {
             "audioIncrement": 0.1,
