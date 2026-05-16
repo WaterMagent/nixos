@@ -8,7 +8,7 @@ in
 {
   # 1. 安装 Quickshell 和必要的 Qt/KDE 依赖
   home.packages = with pkgs; [
-    inputs.quickshell.packages.${pkgs.system}.default
+    quickshell
     
     kdePackages.kdialog
     kdePackages.qt5compat
