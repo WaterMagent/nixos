@@ -3,7 +3,7 @@
 {
   programs.zsh = {
     enable = true;
-    
+
     # 1. 禁用 Oh My Zsh (因为我们要用自定义配置)
     oh-my-zsh.enable = false;
 
@@ -29,7 +29,7 @@
       SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/keyring/ssh";
       DBUS_SESSION_BUS_ADDRESS = "unix:path=$XDG_RUNTIME_DIR/bus";
     };
-    
+
     # 不需要 initContent 了，因为我们会链接文件
   };
 
@@ -37,7 +37,7 @@
   home.file.".config/zsh/.zshrc" = {
     source = ./zshrc; # 指向同目录下的 zshrc 文件
   };
-  
+
   home.packages = with pkgs; [
     eza
     bat

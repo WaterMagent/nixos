@@ -457,7 +457,7 @@ let
     //     match namespace="^noctalia-overview*"
     //     place-within-backdrop true
     // }
-    
+
     //layer-rule{
     //    match namespace="dms:blurwallpaper"
     //}

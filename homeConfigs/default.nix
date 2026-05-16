@@ -1,4 +1,5 @@
-self: illogical-impulse-dotfiles: inputs: {... }:
+self: illogical-impulse-dotfiles: inputs:
+{ ... }:
 {
   imports = [
     (import ./desktop/quickshell.nix illogical-impulse-dotfiles inputs)

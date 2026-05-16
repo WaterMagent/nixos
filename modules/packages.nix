@@ -19,8 +19,8 @@
     cmake
     ninja
     git
-    gcc          # GNU C Compiler
-    gnumake 
+    gcc # GNU C Compiler
+    gnumake
     curl
     clang
     wget

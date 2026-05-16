@@ -9,7 +9,7 @@
 
     # 是否生成 systemd user service (推荐开启以便自动启动)
     systemd.enable = true;
-    
+
     settings = {
       # ── Monitor ──
       monitor = ",preferred,auto,1";

@@ -1,5 +1,11 @@
 # homeConfigs/home.nix
-{ config, pkgs, lib, my-nvim-config, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  my-nvim-config,
+  ...
+}:
 
 {
   home.username = "shion";
@@ -15,10 +21,10 @@
     ./desktop/niri.nix
     ./desktop/hyprland.nix
     ./desktop/caelestia.nix
-    
+
     # ✅ 确保这一行存在
-    ./desktop/quickshell.nix 
-    
+    ./desktop/quickshell.nix
+
     ./terminal/ghostty.nix
     ./shell/fish.nix
     ./shell/starship.nix
@@ -69,6 +75,6 @@
       http.version = "HTTP/1.1";
     };
   };
-  
+
   xdg.enable = true;
 }

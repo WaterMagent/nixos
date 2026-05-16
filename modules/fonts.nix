@@ -11,7 +11,7 @@
     noto-fonts
     noto-fonts-cjk-sans
     roboto
-    maple-mono.NF-unhinted    # 等宽（编程）
+    maple-mono.NF-unhinted # 等宽（编程）
     fira-code
     jetbrains-mono
 

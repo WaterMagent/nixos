@@ -9,124 +9,115 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # ✨ 新增：添加 Niri 的官方 Flake
+    # ✨ Niri
     niri = {
       url = "github:YaLTeR/niri";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # ✨ Neovim Config (Local Path)
     my-nvim-config = {
       url = "path:/etc/nixos/assets/nvim-config";
-      flake = false; # 重要：告诉 Nix 这不是一个 flake，只是普通文件夹
+      flake = false;
     };
+
+    # ✨ Zen Browser
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # ✨ SJMCL
     sjmcl-nix.url = "git+https://codeberg.org/FrdrCkII/sjmcl-nix";
+
+    # ✨ Caelestia Shell
     caelestia-shell = {
       url = "github:caelestia-dots/shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # ✨ NUR
     nur = {
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # ✨ Illogical Impulse Dotfiles (Source only)
     illogical-impulse-dotfiles = {
       url = "github:xBLACKICEx/dots-hyprland";
-      flake = false;
+      flake = false; 
+    };
+
+    # ✨ Quickshell (Added)
+    quickshell = {
+      url = "github:quickshell-mirror/quickshell";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs =
-    inputs@{
-      self,
-      nixpkgs,
-      home-manager,
-      niri,
-      my-nvim-config,
-      sjmcl-nix,
-      caelestia-shell,
-      nur,
-      illogical-impulse-dotfiles,
-      ...
-    }:
-    {
-      # ^^^ 记得在这里解构出 niri
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
-      nixosConfigurations.nyax = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs my-nvim-config; };
+  # ✅ 关键：在这里解构所有需要直接使用的 inputs
+  outputs = inputs@{ 
+    self, 
+    nixpkgs, 
+    home-manager, 
+    niri, 
+    my-nvim-config, 
+    zen-browser, 
+    sjmcl-nix, 
+    caelestia-shell, 
+    nur, 
+    illogical-impulse-dotfiles, 
+    quickshell, 
+    ... 
+  }: {
+    
+    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
+    
+    nixosConfigurations.nyax = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      
+      # 传递 inputs 和 my-nvim-config 给 NixOS 模块
+      specialArgs = { inherit inputs my-nvim-config; };
 
-        modules = [
-          ./configuration.nix
-          ./hardware-configuration.nix
+      modules = [
+        ./configuration.nix
+        ./hardware-configuration.nix
 
-          #home-manager.nixosModules.home-manager
-          # ✨ 新增：导入 Niri 的 Home Manager 模块
-          #{
-            #home-manager = {
-              #useGlobalPkgs = true;
-              #useUserPackages = true;
-              #backupFileExtension = "hm-bak";
+        # Home Manager Module
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.backupFileExtension = "hm-bak";
 
-              #users.shion =
-                #{ config, pkgs, ... }:
-                #{
-                  #imports = [
-                 #   ./homeConfigs/home.nix
-                #    ./homeConfigs/desktop/niri.nix # 你的 Niri 配置
-               #   ];
-              #    home.stateVersion = "24.11";
-             #   };
-            #};
+          # 传递 inputs 和 my-nvim-config 给 Home Manager
+          home-manager.extraSpecialArgs = { 
+            inherit inputs my-nvim-config;
+          };
 
-           # home-manager.extraSpecialArgs = { inherit inputs my-nvim-config; };
-          #}
-          home-manager.nixosModules.home-manager
+          home-manager.users.shion = {
+            imports = [
+              ./homeConfigs/home.nix
+              ./homeConfigs/desktop/niri.nix
+              ./homeConfigs/desktop/quickshell.nix
+            ];
+            home.stateVersion = "24.11";
+          };
+        }
+
+        # System Packages
+        (
+          { inputs, pkgs, ... }:
           {
-            # 1. 关闭 useGlobalPkgs，让 HM 自己管理一套完整的 pkgs
-            home-manager.useGlobalPkgs = true; 
-            home-manager.useUserPackages = true;
-            home-manager.backupFileExtension = "hm-bak";
-
-            # 2. 在 extraSpecialArgs 里重新传入一个干净的 pkgs
-            home-manager.extraSpecialArgs = { 
-              inherit inputs my-nvim-config;
-              # 重新 import 一份完整的 nixpkgs 给 HM 专用
-            };
-
-            home-manager.users.shion =
-              { config, pkgs, ... }:
-              {
-                imports = [
-                  ./homeConfigs/home.nix
-                  ./homeConfigs/desktop/niri.nix
-                  # (illogical-impulse-dotfiles + "/modules/home-manager/default.nix")
-                ];
-                home.stateVersion = "24.11";
-                
-                # 3. 显式把 lndir 加入 HM 管理的包
-              };
+            environment.systemPackages = [
+              inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
+              inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.default
+              caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.default
+              # 如果需要 sjmcl-nix，也可以在这里添加
+            ];
           }
-
-          (
-            { inputs, pkgs, ... }:
-            {
-              environment.systemPackages = [
-                inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
-                inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.default
-                caelestia-shell.packages.${pkgs.stdenv.hostPlatform.system}.default
-#                (inputs.sjmcl-nix.packages.${pkgs.stdenv.hostPlatform.system}.sjmcl.default {
- #                 jdks = [ ]; # 需要使用的 jdk ，默认为 pkgs.jdk
-  #                additionalLibs = [ ]; # 需要额外添加的库，一般无需增加
-   #               additionalPrograms = [ ]; # 需要额外添加的程序依赖，一般无需添加
-    #              curseforgeApiKey = "..."; # Curse Forge Api Key，默认使用 PolyMc 启动器公开的 Api Key
-     #           })
-              ];
-            }
-          )
-        ];
-      };
-      homeManagerModules.default = import ./homeConfigs self illogical-impulse-dotfiles inputs;
+        )
+      ];
     };
+  };
 }

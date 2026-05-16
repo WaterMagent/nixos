@@ -28,13 +28,13 @@
     enable = true;
     alsa.enable = true;
     pulse.enable = true; # 兼容 PulseAudio 应用
-    
+
     # 确保 WirePlumber (会话管理器) 已启用，它负责处理蓝牙连接
     wireplumber.enable = true;
   };
 
   # 5. (可选) 如果你使用 GNOME 或 KDE，它们有自己的蓝牙设置，但 Blueman 通用性更好
   # 如果你用 Budgie (基于 GNOME)，GNOME 的蓝牙设置也能用，但建议装上 blueman 备用
-  
+
   # ... 其他配置 ...
 }

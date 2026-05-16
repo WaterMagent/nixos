@@ -228,5 +228,5 @@ in
     text = musicfoxConfig;
     force = true;
   };
-  #services.pipewire.enable = true; 
+  #services.pipewire.enable = true;
 }

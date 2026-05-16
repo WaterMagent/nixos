@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   # 定义你的固定配色方案
@@ -21,7 +26,7 @@ let
     # --- 🔒 锁定颜色 (防止 Caelestia 覆盖) ---
     # 注意：Ghostty 可能没有直接的 dynamic-colors=false 选项，
     # 但显式定义所有颜色通常能阻止动态替换，或者优先级更高。
-    
+
     background = #191114
     foreground = #eedfe3
     cursor-color = #eedfe3
@@ -46,7 +51,7 @@ let
     palette = 13=#c49ec4
     palette = 14=#9ec3c4
     palette = 15=#e7e7e7
-    
+
     # 如果 Ghostty 版本支持，可以尝试显式关闭动态颜色
     # dynamic-colors = false 
   '';
@@ -56,7 +61,7 @@ in
   home.packages = with pkgs; [
     ghostty
     matugen
- #   nerd-fonts.cascadia-code
+    #   nerd-fonts.cascadia-code
   ];
 
   xdg.configFile."ghostty/config" = {

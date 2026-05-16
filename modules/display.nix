@@ -16,7 +16,7 @@
 
   # 2. 启用 TTY 自动登录
   # 注意：将 'yourUsername' 替换为你实际的普通用户名
-#  services.getty.autologinUser = "shion";
+  #  services.getty.autologinUser = "shion";
   # Wayland 合成器
   programs.niri.enable = true;
   programs.hyprland.enable = true;
