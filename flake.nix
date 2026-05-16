@@ -101,6 +101,7 @@
                 imports = [
                   ./homeConfigs/home.nix
                   ./homeConfigs/desktop/niri.nix
+                  # (illogical-impulse-dotfiles + "/modules/home-manager/default.nix")
                 ];
                 home.stateVersion = "24.11";
                 
