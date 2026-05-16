@@ -3,72 +3,46 @@
 let
   dots = inputs.illogical-impulse-dotfiles;
   
-  # 获取原始的 quickshell 包
-  originalQuickshell = inputs.quickshell.packages.${pkgs.system}.default;
+  # 1. 创建一个包含 Qt5 GraphicalEffects 的 QML 路径
+  # 注意：qt5.qtgraphicaleffects 是 Qt5 包，它的 QML 文件在 lib/qt5/qml/QtGraphicalEffects
+  qt5GePath = "${pkgs.qt5.qtgraphicaleffects}/lib/qt5/qml";
   
-  # 定义必要的环境变量
-  envVars = {
-    QML2_IMPORT_PATH = lib.concatStringsSep ":" [
-      "${pkgs.qt6.qtbase}/lib/qt6/qml"
-      "${pkgs.qt6.qtdeclarative}/lib/qt6/qml"
-      "${pkgs.qt6.qt5compat}/lib/qt6/qml" # 关键：Qt5Compat QML
-      "${pkgs.qt5.qtbase}/lib/qt5/qml"
-      "${pkgs.qt5.qtgraphicaleffects}/lib/qt5/qml"
-    ];
-    
-    QT_PLUGIN_PATH = lib.concatStringsSep ":" [
-      "${pkgs.qt6.qtbase}/lib/qt6/plugins"
-      "${pkgs.qt6.qtdeclarative}/lib/qt6/plugins"
-      "${pkgs.qt6.qt5compat}/lib/qt6/plugins" # 关键：Qt5Compat Plugins
-      "${pkgs.qt5.qtbase}/lib/qt5/plugins"
-    ];
+  # 2. 创建 Qt5Compat 的 QML 路径 (如果 qt5compat 包里有 QML 文件的话)
+  # 通常 kdePackages.qt5compat 的 QML 在 lib/qt6/qml/Qt5Compat
+  qt5CompatPath = "${pkgs.kdePackages.qt5compat}/lib/qt6/qml";
 
-    # ✨ 新增：确保底层共享库也能被找到
-    LD_LIBRARY_PATH = lib.concatStringsSep ":" [
-      "${pkgs.qt6.qtbase}/lib"
-      "${pkgs.qt6.qtdeclarative}/lib"
-      "${pkgs.qt6.qt5compat}/lib"
-      "${pkgs.qt5.qtbase}/lib"
-      "${pkgs.qt5.qtgraphicaleffects}/lib"
-    ];
-    
-    QT_QPA_PLATFORM = "wayland";
-  };
+  # 3. 合并所有必要的 QML 路径
+  # 关键：Qt6 引擎会搜索这些路径
+  combinedQmlPath = lib.concatStringsSep ":" [
+    "${pkgs.kdePackages.qtbase}/lib/qt6/qml"
+    "${pkgs.kdePackages.qtdeclarative}/lib/qt6/qml"
+    qt5CompatPath 
+    qt5GePath # 👈 这里注入了 Qt5 的 GraphicalEffects
+  ];
 
-  # 创建一个包装后的 quickshell
+  combinedPluginPath = lib.concatStringsSep ":" [
+    "${pkgs.kdePackages.qtbase}/lib/qt6/plugins"
+    "${pkgs.kdePackages.qtdeclarative}/lib/qt6/plugins"
+    "${pkgs.kdePackages.qt5compat}/lib/qt6/plugins"
+  ];
+
+  # 4. 创建包装后的 quickshell
   wrappedQuickshell = pkgs.writeShellScriptBin "quickshell" ''
-    export QML2_IMPORT_PATH="${envVars.QML2_IMPORT_PATH}"
-    export QT_PLUGIN_PATH="${envVars.QT_PLUGIN_PATH}"
-    export LD_LIBRARY_PATH="${envVars.LD_LIBRARY_PATH}"
-    export QT_QPA_PLATFORM="${envVars.QT_QPA_PLATFORM}"
-    exec ${originalQuickshell}/bin/quickshell "$@"
+    export QML2_IMPORT_PATH="${combinedQmlPath}"
+    export QT_PLUGIN_PATH="${combinedPluginPath}"
+    export QT_QPA_PLATFORM=wayland
+    exec ${inputs.quickshell.packages.${pkgs.system}.default}/bin/quickshell "$@"
   '';
 in
 {
   home.packages = with pkgs; [
     wrappedQuickshell
     
-    # 显式安装所有必要的 Qt 包
+    # 确保这些包被安装，以便路径存在
     kdePackages.qtbase
     kdePackages.qtdeclarative
-    kdePackages.qt5compat       # 必须
-    kdePackages.qtgraphicaleffects 
-    kdePackages.qtimageformats
-    kdePackages.qtmultimedia
-    kdePackages.qtpositioning
-    kdePackages.qtquicktimeline
-    kdePackages.qtsensors
-    kdePackages.qtsvg
-    kdePackages.qttools
-    kdePackages.qttranslations
-    kdePackages.qtvirtualkeyboard
-    kdePackages.qtwayland
-    kdePackages.syntax-highlighting
-    
-    # Qt5 依赖
-    qt5.qtbase
-    qt5.qtgraphicaleffects      # 必须
-    qt5.qtquickcontrols2
+    kdePackages.qt5compat
+    qt5.qtgraphicaleffects # 👈 关键：安装 Qt5 版本的图形效果包
   ];
 
   xdg.configFile."quickshell".source = "${dots}/.config/quickshell";
