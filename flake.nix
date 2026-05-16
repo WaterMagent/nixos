@@ -27,6 +27,14 @@
       url = "github:caelestia-dots/shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    illogical-impulse-dotfiles = {
+      url = "github:xBLACKICEx/dots-hyprland";
+      flake = false;
+    };
   };
 
   outputs =
@@ -38,6 +46,8 @@
       my-nvim-config,
       sjmcl-nix,
       caelestia-shell,
+      nur,
+      illogical-impulse-dotfiles,
       ...
     }:
     {
@@ -116,5 +126,6 @@
           )
         ];
       };
+      homeManagerModules.default = import ./homeConfigs self illogical-impulse-dotfiles inputs;
     };
 }

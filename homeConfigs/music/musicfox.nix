@@ -58,7 +58,7 @@ let
     # 歌词偏移 ms
     lyricOffset=0
     # 显示歌词翻译
-    showLyricTrans=true
+    showLyricTrans=false
     # 是否显示通知信息
     showNotify=true
     # 开启 pprof, --pprof 时会开启

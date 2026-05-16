@@ -21,6 +21,7 @@
     ./desktop/niri.nix
     ./desktop/hyprland.nix
     ./desktop/caelestia.nix
+    ./desktop/quickshell.nix
     ./terminal/ghostty.nix
     ./shell/fish.nix
     ./shell/starship.nix
@@ -38,7 +39,10 @@
     recursive = true;
     force = true;
   };
-
+  programs.quickshell = {
+    enable = true;
+    # 确保没有禁用默认依赖
+  };
   home.packages = with pkgs; [
     neovim-unwrapped
     ripgrep
@@ -54,8 +58,16 @@
     cliphist
     fastfetch
     matugen
+    quickshell
   ];
-
+  home.sessionVariables = {
+    # ✅ 关键：不要覆盖，而是追加！
+    # 使用 :$QML2_IMPORT_PATH 保留原有路径
+    QML2_IMPORT_PATH = "${pkgs.qt5.qtgraphicaleffects}/qml:${pkgs.qt5.qtquickcontrols2}/qml:${pkgs.qt6.qt5compat}/qml:$QML2_IMPORT_PATH";
+    
+    # 有时也需要指定 QT_PLUGIN_PATH
+    QT_PLUGIN_PATH = "${pkgs.qt5.qtgraphicaleffects}/plugins:${pkgs.qt6.qt5compat}/plugins:$QT_PLUGIN_PATH";
+  };
   programs.git = {
     enable = true;
     settings = {
@@ -71,6 +83,40 @@
       http.version = "HTTP/1.1";
     };
   };
+  illogical-impulse = {
+    enable = true; # 必须启用主开关
 
+    # --- 核心：只启用 Quickshell ---
+    # 注意：不同版本的 end-4-dots 对 quickshell 的选项名称可能略有不同
+    # 常见的是 quickshell.enable 或者 gui.quickshell.enable
+    # 如果下面的选项报错，请查阅该 flake 的 options 定义 (nixos-options 或 home-manager-options)
+    
+    # 假设结构如下 (根据常见 NixOS HM 模块习惯):
+    quickshell = {
+      enable = true;
+      # 如果有额外的 quickshell 配置项，可以在这里加
+    };
+
+    # --- 显式禁用其他所有不需要的组件 ---
+    # 这样可以防止它们被默认启用
+    
+    hyprland = {
+      enable = false; # 禁用 Hyprland 配置
+    };
+
+    dotfiles = {
+      fish.enable = false;
+      kitty.enable = false;
+      zsh.enable = false;
+      bash.enable = false;
+      starship.enable = false;
+      # 检查是否有其他 shell 或终端模拟器
+    };
+
+    # 如果还有 apps, services 等其他大类，也建议显式禁用
+    # apps = {
+    #   enable = false;
+    # };
+  };
   xdg.enable = true;
 }

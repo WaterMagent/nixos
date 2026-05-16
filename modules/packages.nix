@@ -7,7 +7,11 @@
 
 {
   environment.systemPackages = with pkgs; [
-    # 开发工具
+    gst_all_1.gst-plugins-base
+    gst_all_1.gst-plugins-good
+    gst_all_1.gst-plugins-bad
+    gst_all_1.gst-plugins-ugly
+    gst_all_1.gstreamer
     pnpm
     nodejs
     cargo
@@ -64,8 +68,16 @@
     yazi
     rofi
     waybar
-    quickshell
+    qt5.qtgraphicaleffects
+    # 如果 QuickShell 是基于 Qt6 的，则可能需要：
+    # qt6.qtgraphicaleffects
+    qt5.qtdeclarative
+    qt5.qtquickcontrols2
     matugen
+    libreoffice-qt6-still-unwrapped
+    libreoffice
+    lutris
+    wpsoffice-cn
     papirus-icon-theme
     # 多媒体/创作
     obs-studio

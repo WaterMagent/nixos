@@ -1,5 +1,3 @@
-# /etc/nixos/homeConfigs/shell/zshrc
-
 # --- 自动加载模块 ---
 autoload -Uz colors && colors
 autoload -Uz vcs_info
@@ -111,3 +109,4 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 # --- Environment Variables ---
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
 export DBUS_SESSION_BUS_ADDRESS="unix:path=$XDG_RUNTIME_DIR/bus"
+fastfetch
