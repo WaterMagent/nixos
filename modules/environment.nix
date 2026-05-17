@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   environment.variables = {
@@ -6,7 +11,7 @@
     GOPROXY = "https://goproxy.cn,direct";
     RUSTUP_DIST_SERVER = "https://rsproxy.cn";
     RUSTUP_UPDATE_ROOT = "https://rsproxy.cn/rustup";
-    
+
     GTK_IM_MODULE = lib.mkForce "fcitx5";
     QT_IM_MODULE = lib.mkForce "fcitx5";
     SDL_IM_MODULE = "fcitx5";
@@ -22,12 +27,14 @@
     ];
 
     # ✅ 手动拼接正确的插件路径
-    QT_PLUGIN_PATH = lib.mkForce (lib.concatStringsSep ":" [
-      "${pkgs.qt5.qtbase}/lib/qt5/plugins"
-      "${pkgs.qt6.qtbase}/lib/qt6/plugins"
-      "${pkgs.qt6.qt5compat}/lib/qt6/plugins"
-      "${pkgs.qt6.qtdeclarative}/lib/qt6/plugins"
-    ]);
+    QT_PLUGIN_PATH = lib.mkForce (
+      lib.concatStringsSep ":" [
+        "${pkgs.qt5.qtbase}/lib/qt5/plugins"
+        "${pkgs.qt6.qtbase}/lib/qt6/plugins"
+        "${pkgs.qt6.qt5compat}/lib/qt6/plugins"
+        "${pkgs.qt6.qtdeclarative}/lib/qt6/plugins"
+      ]
+    );
 
     http_proxy = "http://127.0.0.1:7897";
     https_proxy = "http://127.0.0.1:7897";
